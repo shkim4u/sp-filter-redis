@@ -1,0 +1,39 @@
+###################################################################################################
+# Step 1: Add a test user with following data.
+# * (1) Principal Session Data
+#    - JSESSIONID: 3CB361E0BE1A9A7DE7DB926DF0772BAE
+#    - userId: test
+#    - userName: test
+#    - sckMbbrNo: 20220712112147hilbmq
+# * (2) Principal XO Migration Status Data (XO_SP_ROUTE)
+#    - Key: 20220712112147hilbmq
+#    - APP_SP_ROUTE: ACTIVE
+#    - WEB_SP_SOURTE: ACTIVE
+#    - XO_SP_ROUTE: ACTIVE
+###################################################################################################
+POST http://localhost:8080/adduser
+Content-Type: text/plain
+
+
+###################################################################################################
+# Step 2: Testing "x-sp-customer-id: 20220712112147hilbmq" header
+###################################################################################################
+GET http://localhost:8080/headers
+Content-Type: text/plain
+x-sp-customer-id: 20220712112147hilbmq
+
+
+###################################################################################################
+# Step 3: Testing "JSESSIONID: 3CB361E0BE1A9A7DE7DB926DF0772BAE" header
+###################################################################################################
+GET http://localhost:8080/headers
+Content-Type: text/plain
+JSESSIONID: 3CB361E0BE1A9A7DE7DB926DF0772BAE
+
+
+###################################################################################################
+# Step 4: Testing "JSESSIONID: 3CB361E0BE1A9A7DE7DB926DF0772BAE" cookie
+###################################################################################################
+GET http://localhost:8080/headers
+Content-Type: text/plain
+Cookie: JSESSIONID=3CB361E0BE1A9A7DE7DB926DF0772BAE
