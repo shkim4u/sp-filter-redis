@@ -2,6 +2,7 @@ package kr.co.starbucks.spfilterredis.filter.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
@@ -14,6 +15,10 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
+@ConditionalOnExpression(
+    "!T(org.springframework.util.StringUtils).isEmpty('${spring.redis.principal-session.host:}') and "
+        + "!T(org.springframework.util.StringUtils).isEmpty('${spring.redis.principal-session.port:}')"
+)
 public class PrincipalSessionRedisConfig {
 
     @Value("${spring.redis.principal-session.host}")

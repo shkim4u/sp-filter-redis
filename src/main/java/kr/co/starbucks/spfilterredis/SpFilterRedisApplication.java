@@ -1,5 +1,6 @@
 package kr.co.starbucks.spfilterredis;
 
+import kr.co.starbucks.spfilterredis.redis.config.BasicEmbeddedRedisConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -15,7 +16,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
         DataSourceTransactionManagerAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class
     }
-)public class SpFilterRedisApplication {
+)
+public class SpFilterRedisApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpFilterRedisApplication.class, args);

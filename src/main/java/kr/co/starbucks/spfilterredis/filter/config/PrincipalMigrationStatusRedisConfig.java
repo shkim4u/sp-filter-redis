@@ -4,6 +4,7 @@ import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,6 +18,10 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 
 @Configuration
+@ConditionalOnExpression(
+    "!T(org.springframework.util.StringUtils).isEmpty('${spring.redis.principal-migration-status.host:}') and "
+    + "!T(org.springframework.util.StringUtils).isEmpty('${spring.redis.principal-migration-status.port:}')"
+)
 public class PrincipalMigrationStatusRedisConfig {
 
     @Value("${spring.redis.principal-migration-status.host}")

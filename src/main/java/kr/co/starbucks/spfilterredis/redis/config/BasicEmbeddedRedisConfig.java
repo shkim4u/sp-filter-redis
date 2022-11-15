@@ -4,9 +4,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import redis.embedded.RedisServer;
 
 @Configuration
+//@Profile("!local")
 public class BasicEmbeddedRedisConfig {
 
     @Value("6379")

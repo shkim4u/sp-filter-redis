@@ -4,12 +4,14 @@ import java.util.Collections;
 import javax.servlet.DispatcherType;
 import kr.co.starbucks.spfilterredis.filter.RequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 @Configuration
+@ConditionalOnBean(RequestFilter.class)
 public class FilterConfiguration {
 
     private final RequestFilter requestFilter;
@@ -20,7 +22,7 @@ public class FilterConfiguration {
     }
 
     @Bean
-    public FilterRegistrationBean<RequestFilter> requestEnrichmentFilterRegistration() {
+    public FilterRegistrationBean<RequestFilter> requestFilterRegistration() {
         FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(requestFilter);
         filterRegistrationBean.setUrlPatterns(Collections.singletonList("/*"));

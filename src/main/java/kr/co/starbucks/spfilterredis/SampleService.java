@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 
 @Slf4j
 @Service
+//@Profile("!local")
 public class SampleService {
 
     private final ReactiveRedisConnectionFactory principalSessionRedisConnectionFactory;
@@ -44,28 +45,6 @@ public class SampleService {
         this.principalMigrationStatusRedisConnectionFactory = principalMigrationStatusRedisConnectionFactory;
         this.principalMigrationStatusRedisHashStringOperations = principalMigrationStatusRedisTemplate.opsForHash();
     }
-
-//    public void loadData() {
-//        List<String> data = new ArrayList<>();
-//        IntStream.range(0, 10).forEach(i -> data.add(UUID.randomUUID().toString()));
-//
-//        Flux<String> stringFlux = Flux.fromIterable(data);
-//
-//        principalMigrationStatusRedisConnectionFactory.getReactiveConnection()
-//            .serverCommands()
-//            .flushAll()
-//            .thenMany(stringFlux.flatMap(uid -> principalMigrationStatusRedisHashStringOperations.opsForValue().set(String.valueOf(count.getAndAdd(1)), uid)))
-//            .subscribe();
-//
-//    }
-
-//    public void list() {
-//        principalMigrationStatusRedisHashStringOperations.keys("*")
-//            .flatMap(key -> principalMigrationStatusRedisHashStringOperations.opsForValue().get(key))
-//            .collectList()
-//            .doOnNext(System.out::println)
-//            .subscribe();
-//    }
 
     public void addTestUser() {
         log.info("[SampleService] Adding a test user.");

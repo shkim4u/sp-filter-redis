@@ -1,13 +1,16 @@
 package kr.co.starbucks.spfilterredis.filter.infrastructure.repositories;
 
 import java.util.Map;
+import kr.co.starbucks.spfilterredis.filter.config.PrincipalSessionRedisConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.ReactiveHashOperations;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 @Repository
+@ConditionalOnBean(PrincipalSessionRedisConfig.class)
 public class PrincipalSessionRedisReactiveRepository {
 
     private static final String MEMBER_SESSION_KEY = "LoginUserInfo";
@@ -27,13 +30,11 @@ public class PrincipalSessionRedisReactiveRepository {
 
     public Mono<Map<String, String>> getPrincipalSession(String sessionId) {
         return hashMapOperations.get(sessionId, MEMBER_SESSION_KEY)    // 회원 조회
-            .switchIfEmpty(hashMapOperations.get(sessionId, GUEST_SESSION_KEY))    // 비회원 조회
-            .switchIfEmpty(Mono.empty());
+            .switchIfEmpty(hashMapOperations.get(sessionId, GUEST_SESSION_KEY));    // 비회원 조회
     }
 
     public Mono<String> getUserType(String sessionId) {
         return hashStringOperations.get(sessionId, MEMBER_SESSION_KEY)   // 회원 조회
-            .switchIfEmpty(hashStringOperations.get(sessionId, GUEST_SESSION_KEY))  // 비회원 조회
-            .switchIfEmpty(Mono.empty());
+            .switchIfEmpty(hashStringOperations.get(sessionId, GUEST_SESSION_KEY));  // 비회원 조회
     }
 }
