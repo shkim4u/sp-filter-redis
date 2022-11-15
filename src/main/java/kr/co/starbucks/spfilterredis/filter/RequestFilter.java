@@ -31,7 +31,7 @@ import reactor.core.publisher.Mono;
  * 이 필터의 구현 목적은 서비스 어플리케이션을 호출하는 특정 사용자의 SP 마이그레이션 여부를 판단하는 것이다.<br>
  * 즉, 특정 사용자의 세션 레디스와 마이그레이션 레디스를 살피고 이에 따라 마이그레이션 헤더 주입을 목적으로 한다.<br>
  * <p></p>
- * 필터의 동작 흐름은 다음과 같다. (참고 1: <a href="https://miro.com/app/board/uXjVPIXkmfM=/">마이그레이션 - API 분기처리</a>,
+ * 필터의 동작 흐름은 다음과 같다. (참고 1: <a href="https://miro.com/app/board/uXjVPIXkmfM=/?moveToWidget=3458764538603035763&cot=14">마이그레이션 - API 분기처리</a>,
  * 참고 2: <a href="https://confl.sinc.co.kr/pages/viewpage.action?pageId=135397561">리버스 프록시 분기 기준</a>) <br>
  * <p></p>
  * 1. x-sp-customer-id 헤더 검사<br>
@@ -52,6 +52,8 @@ import reactor.core.publisher.Mono;
  * * ${spring.redis.principal-session.port} <br>
  * * ${spring.redis.principal-migration-status.host} <br>
  * * ${spring.redis.principal-migration-status.port} <br>
+ *
+ * @author Sanghyoun Kim
  */
 @Slf4j
 @RequiredArgsConstructor
