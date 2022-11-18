@@ -19,6 +19,7 @@ public class StaticValues {
     public static final String X_SP_USER_NAME = "x-sp-user-name";
     public static final String X_SP_USER_TYPE = "x-sp-user-type"; //사용자유형(1:MSR회원 2:웹회원 3:비회원 4:준회원)
     public static final String X_SP_APP_ID = "x-sp-app-id";
+    public static final String X_SP_XO_MIGRATION_YN ="x-sp-xo-migration-yn";
 
     public static final String RESULT_CODE = "resultCode";
 

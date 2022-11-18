@@ -1,5 +1,7 @@
 package kr.co.starbucks.spfilterredis.filter;
 
+import static kr.co.starbucks.spfilterredis.filter.common.StaticValues.X_SP_XO_MIGRATION_YN;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
@@ -75,7 +77,7 @@ public class RequestFilter extends HttpFilter {
         MutableHttpServletRequest mutableRequest = new MutableHttpServletRequest(request);
         getPrincipalSession(request)
             // 세션 레디스로부터 Principal을 찾았으면 마이그레이션 상태 조회
-            .flatMap(p -> getPrincipalMigrationStatus(request, p, RouteId.XO_SP_ROUTE.name()))
+            .flatMap(p -> getPrincipalMigrationStatus(p, RouteId.XO_SP_ROUTE.name()))
             // "BLOCK" 상태이면 InternalServerException 발생
             .flatMap(p -> {
                 if (Objects.equals(p.getUserStatus(), UserStatus.BLOCK.name())) {
@@ -100,7 +102,7 @@ public class RequestFilter extends HttpFilter {
     private void putMigrationStatusHeader(MutableHttpServletRequest request, Principal principal) {
         Assert.notNull(request, "HTTP 리퀘스트가 존재하지 않습니다");
         Assert.notNull(principal, "사용자 정보가 존재하지 않습니다");
-        request.putHeader("x-sp-xo-migration-yn", Objects.equals(principal.getUserStatus(), UserStatus.ACTIVE.name()) ? "Y" : "N");
+        request.putHeader(X_SP_XO_MIGRATION_YN, Objects.equals(principal.getUserStatus(), UserStatus.ACTIVE.name()) ? "Y" : "N");
     }
 
     private Mono<Principal> getPrincipalSession(@NotNull HttpServletRequest request) {
@@ -139,7 +141,7 @@ public class RequestFilter extends HttpFilter {
             );
     }
 
-    private Mono<Principal> getPrincipalMigrationStatus(HttpServletRequest request, Principal principal, String routeId) {
+    private Mono<Principal> getPrincipalMigrationStatus(Principal principal, String routeId) {
         return principalMigrationStatusRedisReactiveRepository.getPrincipalMigrationStatus(principal.getSckMbbrNo(), routeId)
             .flatMap(s -> {
                 principal.setUserStatus(s);

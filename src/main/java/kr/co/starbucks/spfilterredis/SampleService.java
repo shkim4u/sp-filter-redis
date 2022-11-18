@@ -55,7 +55,7 @@ public class SampleService {
         principalSessionRedisConnectionFactory.getReactiveConnection()
             .serverCommands()
             .flushAll()
-            .then(principalSessionRedisHashMapOperations.put(sessionId, "LoginUserInfo", userInfo))
+            .then(principalSessionRedisHashMapOperations.put(sessionId, "LoginUserInfo", userInfo).log())
             .subscribe();
 
 
